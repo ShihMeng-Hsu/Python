@@ -17,26 +17,27 @@ def main():
 
 	window.mainloop()
 
-	url = Parser.StockParser.HtmlParser(StockHtml + window.arg)
-	
-	# use Get method to get data by send API
-	Context = url.HtmlGet()
+	while(1):
+		url = Parser.StockParser.HtmlParser(StockHtml + window.arg)
+		
+		# use Get method to get data by send API
+		Context = url.HtmlGet()
 
-	# use beautifulsoup to clean up the Context
-	Soup = url.DataBs4(Context.text)
-	for index in range(4):
-#		if Soup.select(".low")[index]:
-#			StockData[index] = Soup.select(".low")[index].text
-#		elif Soup.select(".high"):
-#			StockData[index] = Soup.select(".high")[index].text
+		# use beautifulsoup to clean up the Context
+		Soup = url.DataBs4(Context.text)
+		Price =  Soup.find_all("tr", align="center", bgcolor="#ffffff", height="25")[0]
+	#	print Price.find_all("td")
+		print Price.find_all("td")[1].get('class')[0]
 
-	# To get the curren Time/Date
-	localtime = url.GetCurrentDate()
+		# To get the curren Time/Date
+		#localtime = url.GetCurrentDate()
 
-	# Input data and show on application
-	window.StockPage(localtime, StockData)
+		# Input data and show on application
+		window.StockPage(Price)
 
-	window.mainloop()
+		#window.mainloop()
+		window.update_idletasks()
+		window.update()
 
 
 #		# wait 5 second
